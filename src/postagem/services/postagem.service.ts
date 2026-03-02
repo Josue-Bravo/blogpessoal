@@ -10,7 +10,7 @@ export class PostagemService {
     constructor(
         @InjectRepository(Postagem)
         private postagemRepository: Repository<Postagem>
-    )
+    ){}
 
     async findAll(): Promise<Postagem[]>{
         // SELECT * FROM tb_postagens
