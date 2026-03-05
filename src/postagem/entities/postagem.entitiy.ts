@@ -1,6 +1,7 @@
 import { Transform, TransformFnParams } from "class-transformer";
-import { IsNotEmpty } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { IsNotEmpty, Length } from "class-validator";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Tema } from "../../tema/entities/tema.entitiy";
 
 
 @Entity({name: "tb_postagens"})  // CREATE TABLE tb_postagens
@@ -16,9 +17,15 @@ export class Postagem {
 
     @Transform(({ value }: TransformFnParams) => value?.trim()) //Remover espaços em branco Inicio e Fim
     @IsNotEmpty() // Recusa valor vazio
+    @Length(10, 1000, {message: "O Texto deve ter entre 10 e 1000 caracteres"})
     @Column({length: 1000, nullable: false}) // VARCHAR(1000) NOT NULL
     texto: string;
 
     @UpdateDateColumn()
     data: Date;
+
+    @ManyToOne(() => Tema, (tema) => tema.postagem, {
+        onDelete: "CASCADE"
+    })
+    tema: Tema
 }
