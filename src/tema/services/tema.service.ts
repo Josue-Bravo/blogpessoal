@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Tema } from "../entities/tema.entitiy";
+import { Tema } from "../entities/tema.entity";
 import { ILike, Repository } from "typeorm";
 import { DeleteResult } from "typeorm/browser";
 
@@ -38,7 +38,7 @@ export class TemaService {
         return tema
     }
 
-    async findAllByDescricao(titulo: string): Promise<Tema[]>{
+    async findByDescricao(titulo: string): Promise<Tema[]>{
         const tema = this.temaRepository.find()
 
         return this.temaRepository.find({
