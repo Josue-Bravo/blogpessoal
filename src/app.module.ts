@@ -10,14 +10,15 @@ import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
 import { ProdService } from './data/services/prod.service';
+import { DevService } from './data/services/dev.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
-	      useClass: ProdService,
-        imports: [ConfigModule],
-    }),
+	    useClass: DevService,
+      imports: [ConfigModule],
+  }),
     PostageModule,
     TemaModule,
     AuthModule,

@@ -46,7 +46,7 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
     usuarioId = resposta.body.id;
   })
 
-  it("02 - Não Deve Cadastrar um novo usuário", async () => {
+  it("02 - Não Deve Cadastrar um usuário repitido", async () => {
     const resposta = await request(app.getHttpServer())
       .post('/usuarios/cadastrar')
       .send({
@@ -58,7 +58,14 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
       .expect(400);
   })
 
-  it("03 - Deve Autenticar um usuário cadastrado", async () => {
+  it("03 - Não deve Autorizar a listagem de usuários", async () => {
+    const resposta = await request(app.getHttpServer())
+      .get('/usuarios/all')
+      .set('Authorization', `${token}`)
+      .expect(401);
+  })
+
+  it("04 - Deve Autenticar um usuário cadastrado", async () => {
     const resposta = await request(app.getHttpServer())
       .post('/usuarios/logar')
       .send({
@@ -70,14 +77,14 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
       token = resposta.body.token
   })
 
-  it("04 - Deve Listar todos os usuários cadastrados", async () => {
+  it("05 - Deve Listar todos os usuários cadastrados", async () => {
     const resposta = await request(app.getHttpServer())
       .get('/usuarios/all')
       .set('Authorization', `${token}`)
       .expect(200);
   })
 
-  it("05 - Deve Atualizar os dados de um usuário já existente", async () => {
+  it("06 - Deve Atualizar os dados de um usuário já existente", async () => {
     const resposta = await request(app.getHttpServer())
       .put('/usuarios/atualizar')
       .set('Authorization', `${token}`)
@@ -91,11 +98,18 @@ describe('Testes dos Módulos Usuario e Auth (e2e)', () => {
       .expect(200)
   })
 
-  it("06 - Deve Listar um usuário cadastrado por ID", async () => {
+  it("07 - Deve Listar um usuário cadastrado por ID", async () => {
     const resposta = await request(app.getHttpServer())
       .get(`/usuarios/${usuarioId}`)
       .set('Authorization', `${token}`)
       .expect(200);
+  })
+
+  it("08 - Deve falhar em encontrar um usuario por id", async () => {
+    const resposta = await request(app.getHttpServer())
+      .get(`/usuarios/${usuarioId + 1}`)
+      .set('Authorization', `${token}`)
+      .expect(404);
   })
   
 });

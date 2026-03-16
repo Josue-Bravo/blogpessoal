@@ -9,14 +9,14 @@ export class DevService implements TypeOrmOptionsFactory {
 
     createTypeOrmOptions(): TypeOrmModuleOptions {
         return {
-            type: 'mysql',
-            host: 'localhost',
-            port: 3307,
-            username: 'root',
-            password: 'root',
-            database: 'db_blogpessoal',
-            entities: [Postagem, Tema, Usuario],
-            synchronize: true,
+        type: "mysql",
+        host: "localHost",
+        port: 3307,
+        username: "root",
+        password: "root",
+        database: "db_blogpessoal",
+        entities: [Postagem, Tema, Usuario],
+        synchronize: true
     };
   }
 }
